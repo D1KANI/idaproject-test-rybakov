@@ -80,7 +80,6 @@ export default {
     },
     sortProductsDecreaseByPrice() {
       this.products.sort((a, b) => +a.price.replace(/\s/g, '') > +b.price.replace(/\s/g, '') ? 1 : -1);
-      // this.products.sort((a, b) => console.log(+a.price.replace(/\s/g, '')));
     },
   },
   beforeMount() {
