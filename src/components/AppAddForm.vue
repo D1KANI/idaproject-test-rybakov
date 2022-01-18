@@ -46,12 +46,8 @@
 </template>
 
 <script>
-import BaseInput from "@/components/BaseInput.vue";
 export default {
   name: "AppAddForm",
-  components: {
-    BaseInput,
-  },
   data() {
     return {
       lenghtAgreeInputs: 0,
