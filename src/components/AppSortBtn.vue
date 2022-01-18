@@ -44,13 +44,15 @@ export default {
   },
   methods: {
     changeSort(e, status) {
-      this.activeText = e.target.innerText;
-      if (status === 'increase') {
-        this.$emit('sort-increase');
-      } else if (status === 'decrease') {
-        this.$emit('sort-decrease');
-      } else if (status === 'byName') {
-        this.$emit('sort-default');
+      if (this.activeText != e.target.innerText) {
+        this.activeText = e.target.innerText;
+        if (status === 'increase') {
+          this.$emit('sort-increase');
+        } else if (status === 'decrease') {
+          this.$emit('sort-decrease');
+        } else if (status === 'byName') {
+          this.$emit('sort-default');
+        }
       }
     },
   },

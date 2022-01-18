@@ -73,13 +73,13 @@ export default {
       localStorage.setItem("products", JSON.stringify(this.products));
     },
     sortProductsByName() {
-      this.products.sort((a, b) => (a.name > b.name ? 1 : -1));
+      this.products.sort((a, b) => a.name > b.name ? 1 : -1);
     },
     sortProductsIncreaseByPrice() {
-      this.products.sort((a, b) => +a.price < +b.price ? 1 : -1);
+      this.products.sort((a, b) => a.price < b.price ? 1 : -1);
     },
     sortProductsDecreaseByPrice() {
-      this.products.sort((a, b) => +a.price.replace(/\s/g, '') > +b.price.replace(/\s/g, '') ? 1 : -1);
+      this.products.sort((a, b) => a.price > b.price ? 1 : -1);
     },
   },
   beforeMount() {
