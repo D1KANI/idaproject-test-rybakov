@@ -11,7 +11,7 @@
         <div class="product-item__desc">
           <slot name="desc"></slot>
         </div>
-        <div class="product-item__price"><slot name="price">10 000</slot> руб.</div>
+        <div class="product-item__price"><slot name="price"></slot> руб.</div>
       </div>
     </a>
     <div @click="deleteItem()" class="product-item__delete">

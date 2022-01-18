@@ -76,14 +76,14 @@ export default {
       this.products.sort((a, b) => a.name > b.name ? 1 : -1);
     },
     sortProductsIncreaseByPrice() {
-      this.products.sort((a, b) => a.price < b.price ? 1 : -1);
+      this.products.sort((a, b) => parseFloat(a.price.replace(/\s/g, '')) < parseFloat(b.price.replace(/\s/g, '')) ? 1 : -1);
     },
     sortProductsDecreaseByPrice() {
-      this.products.sort((a, b) => a.price > b.price ? 1 : -1);
+      this.products.sort((a, b) => parseFloat(a.price.replace(/\s/g, '')) > parseFloat(b.price.replace(/\s/g, '')) ? 1 : -1);
     },
   },
   beforeMount() {
-    if (localStorage.getItem("products")) {
+    if (localStorage.getItem("products") && JSON.parse(localStorage.getItem("products")).length) {
       this.products = JSON.parse(localStorage.getItem("products"));
     } else {
       this.products = [
