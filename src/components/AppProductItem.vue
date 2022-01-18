@@ -44,13 +44,13 @@ export default {
   box-shadow: 0px 20px 30px rgba(0, 0, 0, 0.04),
     0px 6px 10px rgba(0, 0, 0, 0.02);
   border-radius: 4px;
-  &:hover {
-    .product-item__delete {
-      opacity: 1;
-    }
-  }
   &-wrapper {
     position: relative;
+    &:hover {
+      .product-item__delete {
+        opacity: 1;
+      }
+    }
   }
   &__image {
     display: block;
@@ -98,6 +98,7 @@ export default {
     align-items: center;
     opacity: 0;
     transition: opacity 175ms ease-in-out;
+    cursor: pointer;
   }
 }
 
