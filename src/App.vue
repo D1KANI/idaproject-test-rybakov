@@ -90,6 +90,7 @@ h1 {
     background: #EEEEEE;
     color: #B4B4B4;
     cursor: not-allowed;
+    box-shadow: none;
   }
 }
 

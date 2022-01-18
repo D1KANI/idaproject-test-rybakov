@@ -115,8 +115,9 @@ export default {
   top: 24px;
 }
 .input {
+  display: block;
   width: 100%;
-  padding: 10px 16px 11px;
+  padding: 9px 15px 10px;
   border: none;
   border-radius: 4px;
   background: #fffefb;
@@ -178,5 +179,8 @@ export default {
       transform: translateX(100%);
     }
   }
+}
+.btn {
+  margin-top: 8px;
 }
 </style>
