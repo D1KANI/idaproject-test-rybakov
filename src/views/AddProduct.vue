@@ -79,11 +79,12 @@ export default {
       this.products.sort((a, b) => +a.price < +b.price ? 1 : -1);
     },
     sortProductsDecreaseByPrice() {
-      this.products.sort((a, b) => +a.price > +b.price ? 1 : -1);
+      this.products.sort((a, b) => +a.price.replace(/\s/g, '') > +b.price.replace(/\s/g, '') ? 1 : -1);
+      // this.products.sort((a, b) => console.log(+a.price.replace(/\s/g, '')));
     },
   },
   beforeMount() {
-    if (JSON.parse(localStorage.getItem("products")).length) {
+    if (localStorage.getItem("products")) {
       this.products = JSON.parse(localStorage.getItem("products"));
     } else {
       this.products = [
@@ -104,7 +105,7 @@ export default {
           desc: 'Довольно-таки интересное описание товара в несколько строк. Довольно-таки интересное описание товара в несколько строк',
           price: '10 000',
           image: productImageDefault
-        },
+        }
       ];
       localStorage.setItem("products", JSON.stringify(this.products));
     }

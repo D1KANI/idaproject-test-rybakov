@@ -46,6 +46,7 @@ export default {
   border-radius: 4px;
   &-wrapper {
     position: relative;
+    height: 100%;
     &:hover {
       .product-item__delete {
         opacity: 1;
