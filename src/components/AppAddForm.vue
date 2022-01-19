@@ -1,65 +1,83 @@
 <template>
-  <form class="add-form" @submit.prevent="addProduct()">
-    <div class="input-wrapper">
-      <label class="label">Наименование товара<span></span></label>
-      <input
-        v-model="nameProduct"
-        @input="checkEmptyValue($event)"
-        type="text"
-        class="input"
-        placeholder="Введите наименование товара"
-      />
-      <div class="input-error">Поле является обязательным</div>
-    </div>
-    <div class="input-wrapper">
-      <label class="label">Описание товара</label>
-      <textarea
-        v-model="descProduct"
-        class="input textarea"
-        placeholder="Введите описание товара"
-      ></textarea>
-    </div>
-    <div class="input-wrapper">
-      <label class="label">Ссылка на изображение товара<span></span></label>
-      <input
-        v-model="imageLinkProduct"
-        @input="checkEmptyValue($event)"
-        type="text"
-        class="input"
-        placeholder="Введите ссылку"
-      />
-      <div class="input-error">Поле является обязательным</div>
-    </div>
-    <div class="input-wrapper">
-      <label class="label">Цена товара<span></span></label>
-      <input
-        v-model="priceProduct"
-        @input="checkEmptyValue($event, 'masked')"
-        type="text"
-        class="input"
-        placeholder="Введите цену"
-      />
-      <div class="input-error">Поле является обязательным</div>
-    </div>
+  <form class="add-form" id="addProductForm" @submit.prevent="addProduct()">
+    <app-input
+      v-for="(item, index) in inputs"
+      :key="index"
+      :label="item.label"
+      :placeholder="item.placeholder"
+      :required="item.required"
+      :type="item.type"
+      v-model="item.value"
+      :modifier="item.modifier"
+      :name="item.name"
+      >
+    </app-input>
     <button :class="classnameButton" class="btn">Добавить товар</button>
   </form>
 </template>
 
 <script>
+import AppInput from '@/components/AppInput.vue'
 export default {
   name: "AppAddForm",
+  components: {
+    AppInput,
+  },
   data() {
     return {
-      lenghtAgreeInputs: 0,
-      nameProduct: "",
-      descProduct: "",
-      imageLinkProduct: "",
-      priceProduct: "",
+      inputs: [
+        {
+          type: 'input',
+          label: 'Наименование товара',
+          placeholder: 'Введите наименование товара',
+          value: '',
+          required: true,
+          modifier: '',
+          name: 'name'
+        },
+        {
+          type: 'textarea',
+          label: 'Описание товара',
+          placeholder: 'Введите описание товара',
+          value: '',
+          required: false,
+          modifier: '',
+          name: 'desc'
+        },
+        {
+          type: 'input',
+          label: 'Ссылка на изображение товара',
+          placeholder: 'Введите ссылку',
+          value: '',
+          required: true,
+          modifier: '',
+          name: 'image'
+        },
+        {
+          type: 'input',
+          label: 'Цена товара',
+          placeholder: 'Введите цену',
+          value: '',
+          required: true,
+          modifier: 'price',
+          name: 'price'
+        },
+      ],
     };
   },
   computed: {
     classnameButton() {
-      if (!this.nameProduct || !this.imageLinkProduct || !this.priceProduct) {
+      let countRequired = 0,
+          countInputSuccess = 0;
+      this.inputs.forEach(input => {
+        if (input.required) {
+          countRequired++;
+          if (input.value.length) {
+            countInputSuccess++;
+          }
+        }
+      });
+      if (countRequired != countInputSuccess) {
         return "_disabled";
       } else {
         return "";
@@ -67,32 +85,14 @@ export default {
     },
   },
   methods: {
-    checkEmptyValue(e, modifier) {
-      if (!e.target.value.length) {
-        e.target.classList.add("_error");
-        e.target.nextSibling.style.display = "block";
-      } else {
-        e.target.classList.remove("_error");
-        e.target.nextSibling.style.display = "none";
-      }
-      if (modifier) {
-        if (isNaN(e.target.value.replace(/\s/g, ''))) {
-          this.priceProduct = '';
-          this.checkEmptyValue(e);
-        } else {
-          this.priceProduct = String(this.priceProduct)
-                            .replace(/\s/g, '')
-                            .replace(/(\d)(?=(\d{3})+([^\d]|$))/g,"$1 ");
-        }
-      }
-    },
     addProduct() {
       if (this.classnameButton === "") {
+        let form = document.forms.addProductForm;
         let product = {
-          name: this.nameProduct,
-          desc: this.descProduct,
-          image: this.imageLinkProduct,
-          price: String(this.priceProduct).replace(
+          name: form.elements.name.value,
+          desc: form.elements.desc.value,
+          image: form.elements.image.value,
+          price: String(form.elements.price.value).replace(
             /(\d)(?=(\d{3})+([^\d]|$))/g,
             "$1 "
           ),
@@ -113,72 +113,6 @@ export default {
   padding: 24px;
   position: sticky;
   top: 24px;
-}
-.input {
-  display: block;
-  width: 100%;
-  padding: 9px 15px 10px;
-  border: none;
-  border-radius: 4px;
-  background: #fffefb;
-  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
-  font-family: "Source Sans Pro";
-  font-size: 12px;
-  line-height: 15px;
-  border: 1px solid transparent;
-  color: #3f3f3f;
-  transition: border-color 175ms ease-out;
-  &::placeholder {
-    color: #b4b4b4;
-  }
-  &._error {
-    border-color: #ff8484;
-  }
-  &-wrapper {
-    width: 100%;
-    margin-bottom: 16px;
-  }
-  &-error {
-    display: none;
-    font-size: 8px;
-    line-height: 10px;
-    letter-spacing: -0.02em;
-    margin-top: 4px;
-    color: #ff8484;
-  }
-}
-.textarea {
-  height: 108px;
-  font-family: "Source Sans Pro";
-  font-size: 12px;
-  line-height: 15px;
-  resize: none;
-  &::placeholder {
-    color: #b4b4b4;
-  }
-}
-.label {
-  display: block;
-  width: max-content;
-  margin-bottom: 4px;
-  font-size: 10px;
-  line-height: 13px;
-  letter-spacing: -0.02em;
-  span {
-    position: relative;
-    &::before {
-      content: "";
-      display: block;
-      width: 4px;
-      height: 4px;
-      border-radius: 50%;
-      background-color: #ff8484;
-      position: absolute;
-      top: 0;
-      right: 0;
-      transform: translateX(100%);
-    }
-  }
 }
 .btn {
   margin-top: 8px;

@@ -125,6 +125,7 @@ export default {
   }
   &-body {
     display: flex;
+    align-items: flex-start;
   }
   &-form {
     min-height: 100%;
@@ -141,9 +142,8 @@ export default {
     &-empty {
       font-size: 24px;
       width: 100%;
-      display: flex;
-      justify-content: center;
-      align-items: center;
+      text-align: center;
+      padding: 20px 0;
     }
   }
   &-item {
