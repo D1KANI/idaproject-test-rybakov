@@ -4,6 +4,7 @@
       <label class="label">{{ label }}<span v-if="required"></span></label>
       <textarea
         v-if="type === 'textarea'"
+        @input="checkEmptyValue($event)"
         class="input textarea"
         :placeholder="placeholder"
         :value="value"
@@ -44,21 +45,23 @@ export default ({
   },
   methods: {
     checkEmptyValue(e) {
-      if (!e.target.value.length) {
-        e.target.classList.add("_error");
-        this.validation = false;
-      } else {
-        e.target.classList.remove("_error");
-        this.validation = true;
-      }
-      if (this.modifier) {
-        if (isNaN(e.target.value.replace(/\s/g, ''))) {
-          e.target.value = '';
-          this.checkEmptyValue(e);
+      if (this.required) {
+        if (!e.target.value.length) {
+          e.target.classList.add("_error");
+          this.validation = false;
         } else {
-          e.target.value = String(e.target.value)
-                            .replace(/\s/g, '')
-                            .replace(/(\d)(?=(\d{3})+([^\d]|$))/g,"$1 ");
+          e.target.classList.remove("_error");
+          this.validation = true;
+        }
+        if (this.modifier) {
+          if (isNaN(e.target.value.replace(/\s/g, ''))) {
+            e.target.value = '';
+            this.checkEmptyValue(e);
+          } else {
+            e.target.value = String(e.target.value)
+                              .replace(/\s/g, '')
+                              .replace(/(\d)(?=(\d{3})+([^\d]|$))/g,"$1 ");
+          }
         }
       }
       this.$emit('input', e.target.value);
